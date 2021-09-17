@@ -1,0 +1,48 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/sp/column-formatting.schema.json",
+    "elmType": "div",
+    "style": {
+        "position": "relative",
+        "border": "2px solid",
+        "border-color": "=if([$DataPrevista] <= @now, '#ff9362', if(1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio]) >= 0.4) && (1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio]) < 0.7), '#ffd24c', if(1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio]) >= 0.7, '#ff9362', '#bdca73'))"
+    },
+    "children": [{
+            "elmType": "div",
+            "style": {
+                "font-size": "12px",
+                "text-align-last": "right",
+                "min-height": "inherit",
+                "width": "=if([$DataPrevista] <= @now, '100%', if((Number([$DataPrevista] - @now))/86400000)>=100,'100%', (1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio])) * 100 + '%')"
+            },
+
+            "attributes": {
+                "class": "=if([$DataPrevista] <= @now, 'sp-field-severity--severeWarning', if(1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio]) >= 0.4) && (1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio]) < 0.7), 'sp-field-severity--warning', if(1.4 - Number([$DataPrevista] - @now) / Number([$DataPrevista] - [$DataInicio]) >= 0.7, 'sp-field-severity--severeWarning', 'sp-field-severity--good'))"
+            }
+        },
+        {
+            "elmType": "span",
+            "txtContent": "@currentField.displayValue",
+            "style": {
+                "position": "absolute",
+                "left": "8px"
+            },
+            "attributes": {
+                "class": "ms-fontColor-neutralSecondary"
+            }
+        },
+        {
+            "elmType": "span",
+            "txtContent": "='(' + if(floor(Number(Date([$DataPrevista]) - Date(@now))/86400000)==0,'Vencido', if(floor(Number(Date([$DataPrevista]) - Date(@now))/86400000)==1,'Ultimo dia', if(floor(Number(Date([$DataPrevista]) - Date(@now))/86400000)==-1,'Vencido', if(floor(Number(Date([$DataPrevista]) - Date(@now))/86400000)>=2,floor(Number(Date([$DataPrevista]) - Date(@now))/86400000) + ' dias restantes', if(floor(Number(Date([$DataPrevista]) - Date(@now))/86400000)<=2,floor(Number(Date(@now)-Date([$DataPrevista]))/86400000) + ' dias vencidos',''))))) + ')'",
+            "style": {
+                "position": "absolute",
+                "right": "2px",
+                "bottom": "2px",
+                "font-size": "9px",
+                "color": "black"
+            },
+            "attributes": {
+                "class": "ms-fontColor-neutralSecondary"
+            }
+        }
+    ]
+}
